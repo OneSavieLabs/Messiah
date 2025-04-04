@@ -17,6 +17,11 @@ pnpm install
 pnpm dev
 ```
 
+### Frontend Deploy to Github Page
+
+reference:
+https://vite.dev/guide/static-deploy
+
 #### Tech Stack:
 
 - React
