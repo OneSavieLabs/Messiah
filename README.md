@@ -19,8 +19,13 @@ pnpm dev
 
 ### Frontend Deploy to Github Page
 
+Github Page:
+https://daky.github.io/Messiah/
+
 reference:
 https://vite.dev/guide/static-deploy
+
+note: since we use pnpm, so need to npm install it
 
 #### Tech Stack:
 
