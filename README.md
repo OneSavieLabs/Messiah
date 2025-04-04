@@ -28,13 +28,13 @@ pnpm dev
 
 ## Chain and gas setup
 
-### HaskKey
+### HashKey Chain Testnet
 
 add to wallet: https://chainlist.org/chain/133
 
 faucet: https://faucet.hsk.xyz/zh_TW/faucet
 
-### Celo
+### Celo Alfajores Testnet
 
 add to wallet: https://chainlist.org/chain/44787
 
