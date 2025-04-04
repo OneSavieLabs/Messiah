@@ -13,7 +13,6 @@ prevent next 1.5B hack
 ### Frontend
 
 ```bash
-cd poc
 pnpm install
 pnpm dev
 ```
