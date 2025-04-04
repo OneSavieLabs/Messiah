@@ -2,6 +2,8 @@
 
 prevent next 1.5B hack
 
+<img src="concept.png"  width="100%">
+
 # Incident Report
 
 | File                                                                      | Lost |
