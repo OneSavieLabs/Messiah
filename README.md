@@ -6,9 +6,9 @@ prevent next 1.5B hack
 
 # Incident Report
 
-| File                                                                      | Lost |
-| ------------------------------------------------------------------------- | ---- |
-| [Bybit Hack](./Bybit/Bybit-Incident-Investigation-Preliminary-Report.pdf) | 1.5B |
+| File                                                                               | Lost |
+| ---------------------------------------------------------------------------------- | ---- |
+| [Bybit Hack](./incident/Bybit/Bybit-Incident-Investigation-Preliminary-Report.pdf) | 1.5B |
 
 ### Frontend
 
