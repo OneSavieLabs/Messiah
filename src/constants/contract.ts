@@ -11,8 +11,8 @@ const contract = {
   },
   "0xaef3": {
     // Celo Alfajores Testnet
-    trojan: "0x60a35129f822f2da2062c26097296b70faea4083",
-    transfer: "0xb9b813e06a48fff9b6a2fa4a2809103bf4dd5218",
+    trojan: "0x426D91Fe0235daCE15Ea3764944d925d2B600Fa3",
+    transfer: "0xBDD77C95A14f798A06b99773a7859102FcAb8009",
   },
   "0x85": {
     // HashKey Chain Testnet

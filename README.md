@@ -120,15 +120,15 @@ Transfer.sol
 
 Trojan.sol
 
-**address:** 0x60a35129f822f2da2062c26097296b70faea4083
+**address:** 0x426D91Fe0235daCE15Ea3764944d925d2B600Fa3
 
-**tx:** https://celo-alfajores.blockscout.com/tx/0x5a88b6a7550348afbf7e0a65687bc8bf88b3c5c4e1be39a1f742d12f0c629db9
+**tx:** https://celo-alfajores.blockscout.com/tx/0xecf78f4b601220781d83aa3856a05cfc6938b23beac0c5129e839a385c6d014b
 
 Transfer.sol
 
-**address:** 0xb9b813e06a48fff9b6a2fa4a2809103bf4dd5218
+**address:** 0xBDD77C95A14f798A06b99773a7859102FcAb8009
 
-**tx:** https://celo-alfajores.blockscout.com/tx/0xffcebeef3ea4cf8512facacb6f32165dc1e58a8acd44bf1ab0687fd401c75b94
+**tx:** https://celo-alfajores.blockscout.com/tx/0x197b8b31653e92ff7e134a326c855d47d96e9cb7223bc885bc7a5cac4c69c6a9
 
 ### Zircuit Garfield Testnet
 
