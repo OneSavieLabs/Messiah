@@ -1,0 +1,18 @@
+[project]
+name = "Messiah"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Daky"}
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "typer (>=0.15.2,<0.16.0)",
+    "beautifulsoup4 (>=4.13.3,<5.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

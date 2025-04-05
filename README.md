@@ -33,6 +33,8 @@ note: since we use pnpm, so need to npm install it
 
 ```bash
 # Initialize virtual environment and install dependencies
+pyenv virtualenv 3.11 Messiah
+pyenv activate Messiah
 poetry shell
 poetry install
 ```
