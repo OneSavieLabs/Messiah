@@ -6,9 +6,9 @@ prevent next 1.5B hack
 
 ## Incident Report
 
-| File                                                                               | Lost |
-| ---------------------------------------------------------------------------------- | ---- |
-| [Bybit Hack](./incident/Bybit/Bybit-Incident-Investigation-Preliminary-Report.pdf) | 1.5B |
+| File                                                                                      | Lost |
+| ----------------------------------------------------------------------------------------- | ---- |
+| [Bybit Hack Report](./incident/Bybit/Bybit-Incident-Investigation-Preliminary-Report.pdf) | 1.5B |
 
 ## How to reproduce bybit hack detection
 
@@ -39,7 +39,7 @@ https://vite.dev/guide/static-deploy
 
 note: since we use pnpm, so need to npm install it
 
-### n8n & Backend Installation Setup
+## n8n & Backend Installation Setup
 
 1. Setup Python environment:
 
@@ -70,7 +70,15 @@ docker-compose up -d
 
 5. (First time only) Setup owner account, activate free n8n pro features
 
-#### Tech Stack:
+## Cli:
+
+How to download target website all JS files
+
+```bash
+poetry run python cli/main.py scan
+```
+
+## Tech Stack:
 
 - React
 - Tailwind CSS
