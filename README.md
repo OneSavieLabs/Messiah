@@ -106,15 +106,15 @@ use [Remix](https://remix.ethereum.org/) to deploy
 
 Trojan.sol
 
-**address:** 0x60a35129f822f2da2062c26097296b70faea4083
+**address:** 0x426D91Fe0235daCE15Ea3764944d925d2B600Fa3
 
-**tx:** https://hashkeychain-testnet-explorer.alt.technology/tx/0x84b208275c14ddcda309c2bcdc99e4cd35312ac62ab30c4a771b6fcfb8d84701
+**tx:** https://hashkeychain-testnet-explorer.alt.technology/tx/0x87becfe68748f0fd4485217b61178c7c1f47143d220599ee6eec110b17106d55
 
 Transfer.sol
 
-**address:** 0xb9b813e06a48fff9b6a2fa4a2809103bf4dd5218
+**address:** 0xbdd77c95a14f798a06b99773a7859102fcab8009
 
-**tx:** https://hashkeychain-testnet-explorer.alt.technology/tx/0x24e98fee1239ebc1376d840638b3b41a502f1394a9163444f1219fa62d0e9ac2
+**tx:** https://hashkeychain-testnet-explorer.alt.technology/tx/0x43babad31cfc82bbc0098462e3b412cc82fb9479f76f8d4ae66115b7a9aed4eb
 
 ### Celo Alfajores Testnet
 
