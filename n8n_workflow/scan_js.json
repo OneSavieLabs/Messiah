@@ -1,0 +1,276 @@
+{
+  "name": "scan js",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        560
+      ],
+      "id": "814ed08a-7862-42c8-a163-416f66e30e2f",
+      "name": "When chat message received",
+      "webhookId": "f5f85523-606f-4662-aa9b-e65ecc1008e2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $input.first().json.chatInput; // your large input text\nconst chunkSize = 100000;\nconst overlap = 0;\n\nlet chunks = [];\nlet start = 0;\n\nwhile (start < text.length) {\n    let end = Math.min(start + chunkSize, text.length);\n    let chunk = text.slice(start, end);\n    chunks.push({ json: { chunk } });\n\n    // move start forward by chunkSize - overlap\n    start += chunkSize - overlap;\n}\n\nreturn chunks;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        440
+      ],
+      "id": "e6faec66-c473-4eef-8b46-d039aae4609c",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        700,
+        440
+      ],
+      "id": "b81b5a28-8b20-4379-b7da-b3afe05b6062",
+      "name": "Loop Over Items",
+      "alwaysOutputData": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chunk }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=## Overview\n\nWhen auditing a website's js, we want to make sure the target js is not injected, you will focus on the following malicious behavior.\n\n\nWhen targeted wallet trigger the transfer function, it will trigger malicious smart contract in the code. When the other users try to use transfer function, it will work properly.\n\nYour job is to detect this kind of malicious behavior in js file.\n\nYou should follow the thinking process in next section \n\n## Thinking Process\n\n1. First, identify if a function contains any hardcoded smart contract address or any behavior will affect block-chain\n    - Does it contain any suspicious address on any chain\n    - Does it interact with blockchian\n2. If yes to any above, examine the statement of the function:\n    - Is there any if statement to seperate two identical function\n3. For each suspicious function found, check:\n    - Is it being used in on-chain behavior or information transferring?\n    - Is it being passed to subsequent calls?\n    - Is the smart-contract address hardcoded or configurable?\n4. Review the function and code snippet you found, check:\n    - Does the code snippet really contain malicious behavior?\n    - If vulnerability confirmed, follow the report format below to report that function’s vulnerability.\n\n## Examples with Reasoning\n\n### Example : Malicious address injected\n\n```\n    if (isTargeted) {\n        const contract = new ethers.Contract(\n          contractMap[currentChain?.id as keyof typeof contractMap].trojan,\n          TrojanAbi,\n          signer\n        );\n        const tx = await contract.transfer(\n          \"0xf39Fd12345ad88F6F4ce6aB8827271234Fb92266\",\n          ethers.parseEther(amount)\n        );\n        console.log(\"tx\", tx);\n    } else {\n        const contract = new ethers.Contract(\n          contractMap[currentChains?.id as keyof typeof contractMap].transfer,\n          TransferAbi,\n          signer\n        );\n        const tx = await contract.transfer(\n          recipientAddress,\n          ethers.parseEther(amount)\n        );\n        console.log(\"tx\", tx);\n    }\n```\n\nThought process:\n\n1. This is a wallet asset transfer function.\n2. Looking at parameters:\n    - Found hardcoded smart-contract address(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266).\n    - Found a if statement which seperate two identical function but with different parameter (contract.transfer()).\n3. Analysis:\n    - hardcoded smart-contract address and address we are not familar with and suspicious.\n    - two identical transfer function but send with different address\n4. Final review:\n    - Confirmed vulnerability in code snippet.\n\n\nConclusion: Contains malicious behavior\n\n### Example : Normal case\n\n```\n        const contract = new ethers.Contract(\n          contractMap[currentChains?.id as keyof typeof contractMap].transfer,\n          TransferAbi,\n          signer\n        );\n        const tx = await contract.transfer(\n          recipientAddress,\n          ethers.parseEther(amount)\n        );\n        console.log(\"tx\", tx);\n```\n\nThought process:\n\n1. This is a wallet asset transfer function.\n2. Looking at parameters:\n    - No hardcoded smart-contract address\n    - No if statement which seperate two identical function but with different parameter\n3. Analysis:\n    - Everything fine\n4. Final review:\n    - Confirmed no malicious behavior\n\nConclusion: No malicious behavior\n\n### Report Format\n\nIf the input is not a js file, report with a empty array\n\nif your conclusion is no malicious behavior, report with a empty array\n\nIf vulnerabilities found in a function, report with a json:\n\n```\n[\n    {\n        \"Summary\":  \"summary of the malicious behavior\",\n        \"Malicious Behavior Details\": {\n            \"Function Name\": \"Name of the function\",\n            \"Description\": \"a brief description of the malicious behavior\"\n        },\n    \n        \"Code Snippet\": [\n            \"code snippet in the file\"\n        ],\n    \n        \"Recommendation\": \"recommendation of how to fix the malicious behavior\"\n    \n    }\n]\n```\n\n"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        920,
+        540
+      ],
+      "id": "90ca74dd-3c72-40b7-b747-8cee617cefbd",
+      "name": "Basic LLM Chain1",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"array\",\n  \"items\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"Summary\": {\n        \"type\": \"string\",\n        \"description\": \"Brief summary of the Malicious Behavior\"\n      },\n      \"Malicious Behavior Details\": {\n        \"type\": \"object\",\n        \"properties\": {\n    \n          \"Function Name\": {\n            \"type\": \"string\",\n            \"description\": \"Function name where the Malicious Behaviory is found\"\n          },\n          \"Description\": {\n            \"type\": \"string\",\n            \"description\": \"Detailed description of the Malicious Behavior\"\n          }\n        },\n        \"required\": [\"Function Name\", \"Description\"]\n      },\n      \"Code Snippet\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\"\n        },\n        \"description\": \"Code snippet showing the vulnerability\",\n        \"default\": []\n      },\n      \"Recommendation\": {\n        \"type\": \"string\",\n        \"description\": \"Recommendation to fix the Malicious Behavior\"\n      }\n    },\n    \"required\": [\"Summary\", \"Severity\", \"Malicious Behavior Details\", \"Code Snippet\", \"Recommendation\"]\n  },\n  \"additionalProperties\": false\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1068,
+        760
+      ],
+      "id": "f3ef4259-d63c-4062-90dc-48a7703e8e83",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        948,
+        760
+      ],
+      "id": "508c925c-c87b-4f7f-8349-5fb9902ed7ca",
+      "name": "LLM for answer1",
+      "credentials": {
+        "openAiApi": {
+          "id": "tSUjD67Z8Ce7MTh6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        240
+      ],
+      "id": "173a3b7a-64eb-4b27-85ab-15ea91ba24fb",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "bybit",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -20,
+        380
+      ],
+      "id": "49444b55-1f21-4e1b-b810-a34fb7076887",
+      "name": "Webhook",
+      "webhookId": "430a1238-287c-4fe0-9a93-0b2aeae2d843"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "951aed78-c58b-449e-a69c-4271e284f835",
+              "name": "chatInput",
+              "value": "={{ $json.body.prompt }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        280,
+        380
+      ],
+      "id": "567a6306-d30d-4ed1-838d-100bc0396b0c",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM for answer1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5b05aebc-0b9a-40d7-8c6b-ce3a8cc9425c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e5d08384748b56a54bdf175689b39082c3b0ad2b5562b01bd811798ded68a82c"
+  },
+  "id": "l3KwHPLcjfEKInBu",
+  "tags": [
+    {
+      "createdAt": "2025-04-04T18:05:29.241Z",
+      "updatedAt": "2025-04-04T18:05:29.241Z",
+      "id": "2PN1RQHmocLHshdf",
+      "name": "processor"
+    }
+  ]
+}
