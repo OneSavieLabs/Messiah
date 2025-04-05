@@ -4,20 +4,20 @@ prevent next 1.5B hack
 
 <img src="concept.png"  width="100%">
 
-# Incident Report
+## Incident Report
 
 | File                                                                               | Lost |
 | ---------------------------------------------------------------------------------- | ---- |
 | [Bybit Hack](./incident/Bybit/Bybit-Incident-Investigation-Preliminary-Report.pdf) | 1.5B |
 
-### Frontend
+## Frontend Setup
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-### Frontend Deploy to Github Page
+you can use github action deploy to github page
 
 Github Page:
 https://daky.github.io/Messiah/
@@ -27,6 +27,35 @@ https://vite.dev/guide/static-deploy
 
 note: since we use pnpm, so need to npm install it
 
+### n8n & Backend Installation Setup
+
+1. Setup Python environment:
+
+```bash
+# Initialize virtual environment and install dependencies
+poetry shell
+poetry install
+```
+
+2. Configure environment variables in `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Update the environment variables in `.env` file if needed.
+
+3. Start n8n and database:
+
+```bash
+source .env
+docker-compose up -d
+```
+
+4. Access the n8n dashboard, Open your browser and navigate to `http://localhost:5678`
+
+5. (First time only) Setup owner account, activate free n8n pro features
+
 #### Tech Stack:
 
 - React
@@ -35,8 +64,10 @@ note: since we use pnpm, so need to npm install it
 - Vite
 - Web3 Onboard
 - ethers.js v6
+- Python
+- n8n
 
-## Chain and gas setup
+## Chain and Faucet Setup
 
 ### HashKey Chain Testnet
 
@@ -57,7 +88,7 @@ add to wallet: https://chainlist.org/chain/48898
 faucet: https://docs.zircuit.com/garfield-testnet/quick-start#deposit-eth-from-sepolia-to-zircuit-l1-greater-than-l2
 get sepolia ETH first and then use https://bridge.garfield-testnet.zircuit.com/ to bridge it to Zircuit testnet
 
-## Contract Deployment
+## Contract Deployment Setup
 
 use [Remix](https://remix.ethereum.org/) to deploy
 
