@@ -146,12 +146,14 @@ Transfer.sol
 
 Trojan.sol
 
-**address:** 0x60a35129f822f2da2062c26097296b70faea4083
+**address:**
 
-**tx:** https://explorer.testnet.zircuit.com/tx/0x31c1388ef5340806c30b6e5fcaf077b8354be81b57f1d55a8cea3a919e7dcd24
+0x426D91Fe0235daCE15Ea3764944d925d2B600Fa3
+
+**tx:** https://explorer.garfield-testnet.zircuit.com/tx/0x6f6a802ad45819b7a11ab49e317aa1d1653cbf22df8323896bd1b21a8b7838c3
 
 Transfer.sol
 
-**address:** 0xb9b813e06a48fff9b6a2fa4a2809103bf4dd5218
+**address:** 0xBDD77C95A14f798A06b99773a7859102FcAb8009
 
-**tx:** https://explorer.testnet.zircuit.com/tx/0xe2e80da6a3f71bac11ef516f968780e26d746fa2a4cefd328ae1e8555e70204b
+**tx:** https://explorer.garfield-testnet.zircuit.com/tx/0xef710ed662eb86d6a563aa17ee72e2a0c44c8ce15d1700792595612ac5eca708
